@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            colors: [Colors.purple.shade100, Colors.purple.shade200],
           ),
         ),
         child: SafeArea(
@@ -63,36 +63,69 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.blue.shade700,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white.withOpacity(0.6),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.devices),
-            label: '设备管理',
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.analytics),
-            label: '数据分析',
+          boxShadow: [
+            BoxShadow(
+              color: Colors.purple.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.warning),
-            label: '警报信息',
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedItemColor: Colors.purple[700],
+            unselectedItemColor: Colors.purple[300],
+            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+            items: [
+              _buildBottomNavigationBarItem(Icons.devices, '设备管理'),
+              _buildBottomNavigationBarItem(Icons.analytics, '数据分析'),
+              _buildBottomNavigationBarItem(Icons.warning, '警报信息'),
+              _buildBottomNavigationBarItem(Icons.settings, '设置'),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: '设置',
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem(IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.purple[50],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon),
+      ),
+      activeIcon: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.purple[100],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon),
+      ),
+      label: label,
     );
   }
 }

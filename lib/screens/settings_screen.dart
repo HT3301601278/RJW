@@ -24,24 +24,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               TextField(
                 obscureText: true,
-                decoration: InputDecoration(labelText: '旧密码'),
+                decoration: InputDecoration(
+                  labelText: '旧密码',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
                 onChanged: (value) => oldPassword = value,
               ),
+              SizedBox(height: 16),
               TextField(
                 obscureText: true,
-                decoration: InputDecoration(labelText: '新密码'),
+                decoration: InputDecoration(
+                  labelText: '新密码',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: Colors.purple[50],
+                ),
                 onChanged: (value) => newPassword = value,
               ),
             ],
           ),
           actions: [
             TextButton(
-              child: Text('取消'),
+              child: Text('取消', style: TextStyle(color: Colors.purple[700])),
               onPressed: () => Navigator.of(context).pop(false),
             ),
-            TextButton(
+            ElevatedButton(
               child: Text('确认'),
               onPressed: () => Navigator.of(context).pop(true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple[300],
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
             ),
           ],
         );
@@ -74,9 +98,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -85,38 +109,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    Text(
-                      '设置',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  '设置',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple[700],
+                  ),
                 ),
               ),
               Expanded(
-                child: Card(
-                  margin: EdgeInsets.all(16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  color: Colors.white.withOpacity(0.9),
-                  child: ListView(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
                     children: [
-                      _buildSettingItem(
+                      _buildSettingCard(
                         icon: Icons.lock,
                         title: '修改密码',
                         onTap: _changePassword,
                       ),
-                      _buildSettingItem(
+                      SizedBox(height: 16),
+                      _buildSettingCard(
                         icon: Icons.straighten,
                         title: '单位设置',
                         onTap: () {}, // 添加一个空的onTap函数
@@ -134,6 +147,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               child: Text(value),
                             );
                           }).toList(),
+                          style: TextStyle(color: Colors.purple[700], fontSize: 16),
+                          icon: Icon(Icons.arrow_drop_down, color: Colors.purple[300]),
+                          underline: Container(),
                         ),
                       ),
                     ],
@@ -147,17 +163,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingItem({
+  Widget _buildSettingCard({
     required IconData icon,
     required String title,
     required VoidCallback onTap,
     Widget? trailing,
   }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.blue),
-      title: Text(title),
-      trailing: trailing,
-      onTap: onTap,
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      color: Colors.white.withOpacity(0.9),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.purple[100],
+          child: Icon(icon, color: Colors.purple[700]),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.purple[700],
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        trailing: trailing,
+        onTap: onTap,
+      ),
     );
   }
 }

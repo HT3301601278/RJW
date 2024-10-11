@@ -28,9 +28,9 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -42,7 +42,7 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: Icon(Icons.arrow_back, color: Colors.purple[700]),
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
@@ -50,7 +50,7 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.purple[700],
                       ),
                     ),
                   ],
@@ -59,27 +59,62 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
               Expanded(
                 child: _alerts.isEmpty
                     ? Center(
-                        child: Text(
-                          '暂无警报信息',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.notifications_off,
+                              size: 80,
+                              color: Colors.purple[300],
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              '暂无警报信息',
+                              style: TextStyle(
+                                color: Colors.purple[700],
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     : ListView.builder(
                         itemCount: _alerts.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            color: Colors.white.withOpacity(0.9),
-                            child: ListTile(
-                              title: Text('压力警报: ${_alerts[index]}'),
-                              leading: Icon(Icons.warning, color: Colors.red),
-                              trailing: IconButton(
-                                icon: Icon(Icons.delete, color: Colors.grey),
-                                onPressed: () {
-                                  setState(() {
-                                    _alerts.removeAt(index);
-                                  });
-                                },
+                          return Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              color: Colors.white.withOpacity(0.9),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                  child: Icon(Icons.warning, color: Colors.white),
+                                ),
+                                title: Text(
+                                  '压力警报',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.purple[700],
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  _alerts[index],
+                                  style: TextStyle(color: Colors.purple[300]),
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.grey),
+                                  onPressed: () {
+                                    setState(() {
+                                      _alerts.removeAt(index);
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                           );
