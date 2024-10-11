@@ -55,7 +55,17 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
       context: context,
       initialDate: isStartDate ? _startDate : _endDate,
       firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
+      lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.purple[300],
+            colorScheme: ColorScheme.light(primary: Colors.purple[300]!),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       setState(() {
@@ -73,7 +83,6 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
 
     setState(() {
       _isLoading = true;
-      // 移除这行: _currentPage = 0;
     });
 
     try {
@@ -108,7 +117,7 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
       setState(() {
         _currentPage = page;
       });
-      _searchData();  // 添加这行来重新加载数据
+      _searchData();
     }
   }
 
@@ -118,9 +127,9 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -133,20 +142,34 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.purple[700],
                   ),
                 ),
               ),
-              TabBar(
-                controller: _tabController,
-                tabs: [
-                  Tab(text: '表格'),
-                  Tab(text: '图表'),
-                ],
-                indicatorColor: Colors.white,
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.white.withOpacity(0.7),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.0),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: [
+                    Tab(text: '表格'),
+                    Tab(text: '图表'),
+                  ],
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.purple[300],
+                  ),
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.purple[700],
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                ),
               ),
+              SizedBox(height: 16),
               Expanded(
                 child: Card(
                   margin: EdgeInsets.all(16.0),
@@ -166,17 +189,18 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
                           onPressed: _searchData,
                           child: Text('查找'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Colors.purple[300],
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
+                            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                           ),
                         ),
                         SizedBox(height: 16),
                         Expanded(
                           child: _isLoading
-                              ? Center(child: CircularProgressIndicator())
+                              ? Center(child: CircularProgressIndicator(color: Colors.purple[300]))
                               : TabBarView(
                                   controller: _tabController,
                                   children: [
@@ -224,26 +248,28 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
       },
       child: Text(
         '${isStartDate ? "开始" : "结束"}日期: ${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}',
-        style: TextStyle(color: Colors.blue),
+        style: TextStyle(color: Colors.purple[700]),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.purple[700],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
+        padding: EdgeInsets.symmetric(vertical: 12),
       ),
     );
   }
 
   Widget _buildDeviceSelectionDropdown() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.purple.withOpacity(0.1),
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -253,8 +279,8 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
         child: DropdownButton<Device>(
           value: _selectedDevice,
           isExpanded: true,
-          icon: Icon(Icons.arrow_drop_down, color: Colors.blue),
-          style: TextStyle(color: Colors.blue, fontSize: 16),
+          icon: Icon(Icons.arrow_drop_down, color: Colors.purple[300]),
+          style: TextStyle(color: Colors.purple[700], fontSize: 16),
           items: _devices.map((Device device) {
             return DropdownMenuItem<Device>(
               value: device,
@@ -268,7 +294,6 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
             });
             _searchData();
           },
-          dropdownColor: Colors.white.withOpacity(0.9),
         ),
       ),
     );
@@ -276,14 +301,17 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
 
   Widget _buildTableView() {
     return _data.isEmpty
-        ? Center(child: Text('暂无数据'))
+        ? Center(child: Text('暂无数据', style: TextStyle(color: Colors.purple[700])))
         : ListView.builder(
             itemCount: _data.length,
             itemBuilder: (context, index) {
               var item = _data[index] as Map<String, dynamic>;
-              return ListTile(
-                title: Text('压力: ${item['value']} MPa'),
-                subtitle: Text('记录时间: ${item['recordTime']}'),
+              return Card(
+                margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: ListTile(
+                  title: Text('压力: ${item['value']} MPa', style: TextStyle(color: Colors.purple[700])),
+                  subtitle: Text('记录时间: ${item['recordTime']}', style: TextStyle(color: Colors.purple[300])),
+                ),
               );
             },
           );
@@ -291,7 +319,7 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
 
   Widget _buildChartView() {
     return _data.isEmpty
-        ? Center(child: Text('暂无数据'))
+        ? Center(child: Text('暂无数据', style: TextStyle(color: Colors.purple[700])))
         : ChartWidget(data: _data);
   }
 
@@ -300,12 +328,12 @@ class _DataAnalysisScreenState extends State<DataAnalysisScreen> with SingleTick
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: Icon(Icons.chevron_left, color: Colors.purple[300]),
           onPressed: (_currentPage > 0 && !_isLoading) ? () => _changePage(_currentPage - 1) : null,
         ),
-        Text('${_currentPage + 1} / $_totalPages'),
+        Text('${_currentPage + 1} / $_totalPages', style: TextStyle(color: Colors.purple[700])),
         IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: Icon(Icons.chevron_right, color: Colors.purple[300]),
           onPressed: (_currentPage < _totalPages - 1 && !_isLoading) ? () => _changePage(_currentPage + 1) : null,
         ),
       ],
