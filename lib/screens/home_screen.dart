@@ -14,6 +14,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String? _alertMessage;
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    DeviceListScreen(),
+    DataAnalysisScreen(),
+    AlertInfoScreen(),
+    SettingsScreen(),
+  ];
 
   @override
   void initState() {
@@ -49,89 +57,40 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               if (_alertMessage != null) AlertWidget(message: _alertMessage!),
               Expanded(
-                child: Center(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          '反应器压力在线监测系统',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(height: 40),
-                        _buildMenuButton(
-                          icon: Icons.devices,
-                          label: '设备管理',
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DeviceListScreen()),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        _buildMenuButton(
-                          icon: Icons.analytics,
-                          label: '数据分析',
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DataAnalysisScreen()),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        _buildMenuButton(
-                          icon: Icons.warning,
-                          label: '警报信息',
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AlertInfoScreen()),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        _buildMenuButton(
-                          icon: Icons.settings,
-                          label: '设置',
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => SettingsScreen()),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                child: _screens[_currentIndex],
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildMenuButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon),
-          SizedBox(width: 10),
-          Text(label),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.blue.shade700,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withOpacity(0.6),
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.devices),
+            label: '设备管理',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics),
+            label: '数据分析',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.warning),
+            label: '警报信息',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: '设置',
+          ),
         ],
       ),
     );
