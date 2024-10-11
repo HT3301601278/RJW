@@ -63,9 +63,9 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -76,7 +76,7 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: Icon(Icons.arrow_back, color: Colors.purple[700]),
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
@@ -84,7 +84,7 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.purple[700],
                       ),
                     ),
                   ],
@@ -92,7 +92,7 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(24.0),
                   child: Card(
                     elevation: 4,
                     shape: RoundedRectangleBorder(
@@ -100,7 +100,7 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
                     ),
                     color: Colors.white.withOpacity(0.9),
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(24.0),
                       child: Form(
                         key: _formKey,
                         child: Column(
@@ -128,11 +128,12 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
                             ElevatedButton(
                               onPressed: _isLoading ? null : _saveDevice,
                               child: _isLoading
-                                  ? CircularProgressIndicator(color: Colors.blue)
-                                  : Text('保存', style: TextStyle(color: Colors.blue)),
+                                  ? CircularProgressIndicator(color: Colors.white)
+                                  : Text('保存', style: TextStyle(fontSize: 18)),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(vertical: 15),
+                                backgroundColor: Colors.purple[300],
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
@@ -163,25 +164,16 @@ class _DeviceEditScreenState extends State<DeviceEditScreen> {
       initialValue: initialValue,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Colors.blue.shade700),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue.shade200),
-          borderRadius: BorderRadius.circular(15),
+        labelStyle: TextStyle(color: Colors.purple[700]),
+        prefixIcon: Icon(label == '设备名称' ? Icons.devices : Icons.speed, color: Colors.purple[300]),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue.shade700),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade200),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade700),
-          borderRadius: BorderRadius.circular(15),
-        ),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.9),
       ),
-      style: TextStyle(color: Colors.blue.shade700),
+      style: TextStyle(color: Colors.purple[700]),
       keyboardType: keyboardType,
       onSaved: onSaved,
       validator: validator,

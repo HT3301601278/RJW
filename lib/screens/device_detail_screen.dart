@@ -52,9 +52,9 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -66,7 +66,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      icon: Icon(Icons.arrow_back, color: Colors.purple[700]),
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
@@ -74,7 +74,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.purple[700],
                       ),
                     ),
                   ],
@@ -82,7 +82,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
               ),
               Expanded(
                 child: _isLoading
-                    ? Center(child: CircularProgressIndicator(color: Colors.white))
+                    ? Center(child: CircularProgressIndicator(color: Colors.purple[300]))
                     : SingleChildScrollView(
                         padding: EdgeInsets.all(16.0),
                         child: Card(
@@ -101,6 +101,8 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
                                 _buildInfoRow('通信通道', _device.communicationChannel),
                                 _buildInfoRow('阈值', _device.threshold?.toString() ?? '未设置'),
                                 _buildInfoRow('状态', _device.isOn ? '开启' : '关闭'),
+                                SizedBox(height: 20),
+                                _buildCurrentPressure(),
                               ],
                             ),
                           ),
@@ -121,8 +123,8 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
           ).then((_) => _loadDeviceData());
         },
         child: Icon(Icons.edit),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
+        backgroundColor: Colors.purple[300],
+        foregroundColor: Colors.white,
       ),
     );
   }
@@ -139,7 +141,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
               label,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.blue.shade700,
+                color: Colors.purple[700],
               ),
             ),
           ),
@@ -148,6 +150,38 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
             child: Text(
               value,
               style: TextStyle(color: Colors.black87),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCurrentPressure() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.purple[50],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '当前压力',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.purple[700],
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            '${_device.currentPressure?.toStringAsFixed(2) ?? '未知'} MPa',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.purple[300],
             ),
           ),
         ],

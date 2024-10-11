@@ -31,8 +31,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
         isOn: false,
       );
       
-      print('准备添加的设备信息：${newDevice.toJson()}');
-      
       try {
         bool success = await DeviceService.addDevice(newDevice);
         if (success) {
@@ -46,7 +44,6 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
           );
         }
       } catch (e) {
-        print('添加设备时发生异常：$e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('添加设备时发生错误：$e')),
         );
@@ -64,9 +61,9 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -74,68 +71,92 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text(
-                  '添加新设备',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.purple[700]),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    Text(
+                      '添加新设备',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.purple[700],
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        _buildTextField(
-                          label: '设备名称',
-                          onSaved: (value) => _name = value!,
-                          validator: (value) => value!.isEmpty ? '请输入设备名称' : null,
-                        ),
-                        SizedBox(height: 20),
-                        _buildTextField(
-                          label: 'MAC地址',
-                          onSaved: (value) => _macAddress = value!,
-                          validator: (value) => value!.isEmpty ? '请输入MAC地址' : null,
-                        ),
-                        SizedBox(height: 20),
-                        _buildTextField(
-                          label: '通信通道',
-                          onSaved: (value) => _communicationChannel = value!,
-                          validator: (value) => value!.isEmpty ? '请输入通信通道' : null,
-                        ),
-                        SizedBox(height: 20),
-                        _buildTextField(
-                          label: '阈值（可选）',
-                          keyboardType: TextInputType.number,
-                          onSaved: (value) => _threshold = value != null && value.isNotEmpty ? double.parse(value) : null,
-                          validator: (value) {
-                            if (value != null && value.isNotEmpty) {
-                              if (double.tryParse(value) == null) {
-                                return '请输入有效的数字';
-                              }
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 40),
-                        ElevatedButton(
-                          onPressed: _isLoading ? null : _addDevice,
-                          child: _isLoading
-                              ? CircularProgressIndicator(color: Colors.blue)
-                              : Text('添加设备', style: TextStyle(color: Colors.blue)),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                  padding: EdgeInsets.all(24.0),
+                  child: Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    color: Colors.white.withOpacity(0.9),
+                    child: Padding(
+                      padding: EdgeInsets.all(24.0),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _buildTextField(
+                              label: '设备名称',
+                              icon: Icons.devices,
+                              onSaved: (value) => _name = value!,
+                              validator: (value) => value!.isEmpty ? '请输入设备名称' : null,
                             ),
-                          ),
+                            SizedBox(height: 20),
+                            _buildTextField(
+                              label: 'MAC地址',
+                              icon: Icons.router,
+                              onSaved: (value) => _macAddress = value!,
+                              validator: (value) => value!.isEmpty ? '请输入MAC地址' : null,
+                            ),
+                            SizedBox(height: 20),
+                            _buildTextField(
+                              label: '通信通道',
+                              icon: Icons.settings_ethernet,
+                              onSaved: (value) => _communicationChannel = value!,
+                              validator: (value) => value!.isEmpty ? '请输入通信通道' : null,
+                            ),
+                            SizedBox(height: 20),
+                            _buildTextField(
+                              label: '阈值（可选）',
+                              icon: Icons.speed,
+                              keyboardType: TextInputType.number,
+                              onSaved: (value) => _threshold = value != null && value.isNotEmpty ? double.parse(value) : null,
+                              validator: (value) {
+                                if (value != null && value.isNotEmpty) {
+                                  if (double.tryParse(value) == null) {
+                                    return '请输入有效的数字';
+                                  }
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 40),
+                            ElevatedButton(
+                              onPressed: _isLoading ? null : _addDevice,
+                              child: _isLoading
+                                  ? CircularProgressIndicator(color: Colors.white)
+                                  : Text('添加设备', style: TextStyle(fontSize: 18)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.purple[300],
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -149,6 +170,7 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
 
   Widget _buildTextField({
     required String label,
+    required IconData icon,
     required FormFieldSetter<String> onSaved,
     required FormFieldValidator<String> validator,
     TextInputType? keyboardType,
@@ -156,28 +178,19 @@ class _AddDeviceScreenState extends State<AddDeviceScreen> {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Colors.white),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(15),
+        labelStyle: TextStyle(color: Colors.purple[700]),
+        prefixIcon: Icon(icon, color: Colors.purple[300]),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-          borderRadius: BorderRadius.circular(15),
-        ),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.9),
       ),
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.purple[700]),
       keyboardType: keyboardType,
-      validator: validator,
       onSaved: onSaved,
+      validator: validator,
     );
   }
 }

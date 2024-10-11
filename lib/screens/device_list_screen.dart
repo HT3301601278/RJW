@@ -50,9 +50,9 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFFF3E5F5), Color(0xFFE1BEE7)],
           ),
         ),
         child: SafeArea(
@@ -61,22 +61,22 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
-                  '反应器管理',
+                  '设备管理',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.purple[700],
                   ),
                 ),
               ),
               Expanded(
                 child: _isLoading
-                    ? Center(child: CircularProgressIndicator(color: Colors.white))
+                    ? Center(child: CircularProgressIndicator(color: Colors.purple[300]))
                     : _devices.isEmpty
                         ? Center(
                             child: Text(
                               '暂无设备',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
+                              style: TextStyle(color: Colors.purple[700], fontSize: 18),
                             ),
                           )
                         : ListView.builder(
@@ -89,6 +89,7 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
+                                  color: Colors.white.withOpacity(0.9),
                                   child: DeviceListItem(
                                     device: _devices[index],
                                     onTap: () {
@@ -120,14 +121,17 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
                         } : null,
                         child: Text('上一页'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
+                          backgroundColor: Colors.purple[300],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
                       ),
                       SizedBox(width: 16),
                       Text(
                         '${_currentPage + 1} / $_totalPages',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.purple[700]),
                       ),
                       SizedBox(width: 16),
                       ElevatedButton(
@@ -139,8 +143,11 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
                         } : null,
                         child: Text('下一页'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.blue,
+                          backgroundColor: Colors.purple[300],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
                         ),
                       ),
                     ],
@@ -158,8 +165,8 @@ class _DeviceListScreenState extends State<DeviceListScreen> {
           ).then((_) => _loadDevices());
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.blue,
+        backgroundColor: Colors.purple[300],
+        foregroundColor: Colors.white,
       ),
     );
   }
