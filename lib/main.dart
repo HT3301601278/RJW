@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'pages/login_page.dart';
-import 'pages/device_list_page.dart';
-import 'pages/device_detail_page.dart';
-import 'pages/real_time_chart_page.dart';
-import 'pages/history_data_page.dart';
-import 'pages/alert_list_page.dart';
-import 'pages/settings_page.dart';
+
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+void _handleWebSocketMessage(dynamic message) {
+  // 处理接收到的WebSocket消息
+  print('Received WebSocket message: $message');
+  // TODO: 显示警报或更新UI
 }
 
 class MyApp extends StatelessWidget {
@@ -17,22 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '反应器压力监测系统',
+      title: '反应器压力在线监测系统',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => LoginPage(),
-        '/deviceList': (context) => DeviceListPage(),
-        '/deviceDetail': (context) => DeviceDetailPage(),
-        '/realTimeChart': (context) => RealTimeChartPage(),
-        '/historyData': (context) => HistoryDataPage(),
-        '/alertList': (context) => AlertListPage(),
-        '/settings': (context) => SettingsPage(),
-      },
+      home: LoginScreen(),
     );
   }
 }
