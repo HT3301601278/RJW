@@ -12,7 +12,7 @@ class DeviceListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(device.name),
-      subtitle: Text('压力: ${device.currentPressure?.toStringAsFixed(2) ?? '未知'} MPa'),
+      subtitle: Text('温度: ${device.currentTemperature?.toStringAsFixed(2) ?? '未知'} °C'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

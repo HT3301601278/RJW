@@ -8,7 +8,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String _unit = 'MPa';
+  String _unit = '°C';
 
   void _changePassword() async {
     String oldPassword = '';
@@ -140,7 +140,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               _unit = newValue!;
                             });
                           },
-                          items: <String>['MPa', 'bar', 'psi']
+                          items: <String>['°C', '°F', 'K']
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,

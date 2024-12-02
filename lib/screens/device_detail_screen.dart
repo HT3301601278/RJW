@@ -168,7 +168,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '当前压力',
+            '当前温度',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> {
           ),
           SizedBox(height: 8),
           Text(
-            '${_device.currentPressure?.toStringAsFixed(2) ?? '未知'} MPa',
+            '${_device.currentTemperature?.toStringAsFixed(2) ?? '未知'} °C',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

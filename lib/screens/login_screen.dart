@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 24),
                   Text(
-                    '反应器压力在线监测系统',
+                    '反应器温度在线监测系统',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

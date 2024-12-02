@@ -5,7 +5,7 @@ class Device {
   final String communicationChannel;
   final double? threshold;
   final bool isOn;
-  final double? currentPressure;
+  final double? currentTemperature;
 
   Device({
     required this.id,
@@ -14,7 +14,7 @@ class Device {
     required this.communicationChannel,
     this.threshold,
     required this.isOn,
-    this.currentPressure,
+    this.currentTemperature,
   });
 
   factory Device.fromJson(Map<String, dynamic> json) {
@@ -25,7 +25,7 @@ class Device {
       communicationChannel: json['communicationChannel'],
       threshold: json['threshold']?.toDouble(),
       isOn: json['isOn'],
-      currentPressure: json['currentPressure']?.toDouble(),
+      currentTemperature: json['currentTemperature']?.toDouble(),
     );
   }
 
@@ -33,7 +33,7 @@ class Device {
     String? name,
     double? threshold,
     bool? isOn,
-    double? currentPressure,
+    double? currentTemperature,
   }) {
     return Device(
       id: this.id,
@@ -42,7 +42,7 @@ class Device {
       communicationChannel: this.communicationChannel,
       threshold: threshold ?? this.threshold,
       isOn: isOn ?? this.isOn,
-      currentPressure: currentPressure ?? this.currentPressure,
+      currentTemperature: currentTemperature ?? this.currentTemperature,
     );
   }
 
@@ -54,7 +54,7 @@ class Device {
       'communicationChannel': communicationChannel,
       'threshold': threshold,
       'isOn': isOn,
-      'currentPressure': currentPressure,
+      'currentTemperature': currentTemperature,
     };
   }
 }

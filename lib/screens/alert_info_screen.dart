@@ -97,7 +97,7 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
                                   child: Icon(Icons.warning, color: Colors.white),
                                 ),
                                 title: Text(
-                                  '压力警报',
+                                  '温度警报',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.purple[700],
