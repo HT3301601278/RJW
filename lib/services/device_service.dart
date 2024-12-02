@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/device.dart';
 
 class DeviceService {
-  static const String baseUrl = 'http://47.116.66.208:8080/api';
+  static const String baseUrl = 'http://8.155.16.118:8080/api';
 
   static Future<Map<String, dynamic>> getDevices({int page = 0, int size = 10}) async {
     String url = '$baseUrl/devices?page=$page&size=$size';

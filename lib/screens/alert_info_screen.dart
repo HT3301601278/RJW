@@ -13,7 +13,7 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
   @override
   void initState() {
     super.initState();
-    WebSocketService.connect('ws://47.116.66.208:8080/ws/alerts', _handleAlertMessage);
+    WebSocketService.connect('ws://8.155.16.118:8080/ws/alerts', _handleAlertMessage);
   }
 
   void _handleAlertMessage(dynamic message) {
@@ -130,7 +130,7 @@ class _AlertInfoScreenState extends State<AlertInfoScreen> {
 
   @override
   void dispose() {
-    WebSocketService.close('ws://47.116.66.208:8080/ws/alerts');
+    WebSocketService.close('ws://8.155.16.118:8080/ws/alerts');
     super.dispose();
   }
 }

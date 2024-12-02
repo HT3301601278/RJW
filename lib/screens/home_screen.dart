@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WebSocketService.connect('ws://47.116.66.208:8080/ws', _handleWebSocketMessage);
+    WebSocketService.connect('ws://8.155.16.118:8080/ws', _handleWebSocketMessage);
   }
 
   void _showAlert(String message) {
