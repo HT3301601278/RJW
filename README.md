@@ -2,107 +2,163 @@
 
 ## 项目简介
 
-这是一个使用Flutter开发的反应器压力在线监测系统移动应用。该系统允许用户登录、注册、添加设备、查看设备详情、编辑设备信息、分析数据以及查看警报信息等功能。
+这是一个使用 Flutter 开发的反应器压力在线监测系统移动应用。该系统主要用于实时监控和管理工业反应器的压力数据,具有设备管理、数据分析、报警提醒等功能。
+
+## 系统架构
+
+### 前端技术栈
+- Flutter SDK
+- Dart 语言
+- WebSocket 用于实时数据传输
+- HTTP 用于 REST API 通信
+- 第三方库:
+  - fl_chart: 数据可视化图表
+  - shared_preferences: 本地数据存储
+  - http: 网络请求
+  - web_socket_channel: WebSocket 通信
+
+### 后端服务
+- REST API 服务器: `http://8.155.16.118:8080/api`
+- WebSocket 服务器: `ws://8.155.16.118:8080/ws`
 
 ## 项目结构
 
 ```
 lib/
-├── main.dart
-├── models/
-│   └── device.dart
-├── screens/
-│   ├── login_screen.dart
-│   ├── register_screen.dart
-│   ├── add_device_screen.dart
-│   ├── device_detail_screen.dart
-│   ├── device_edit_screen.dart
-│   ├── settings_screen.dart
-│   ├── alert_info_screen.dart
-│   └── data_analysis_screen.dart
-├── services/
-│   ├── auth_service.dart
-│   └── device_service.dart
-└── widgets/
-    └── device_list_item.dart
+├── main.dart                 # 应用程序入口
+├── models/                   # 数据模型
+│   ├── device.dart          # 设备模型
+│   └── user.dart            # 用户模型
+├── screens/                  # 页面
+│   ├── add_device_screen.dart    # 添加设备
+│   ├── alert_info_screen.dart    # 警报信息
+│   ├── data_analysis_screen.dart # 数据分析
+│   ├── device_detail_screen.dart # 设备详情
+│   ├── device_edit_screen.dart   # 设备编辑
+│   ├── device_list_screen.dart   # 设备列表
+│   ├── home_screen.dart          # 主页
+│   ├── login_screen.dart         # 登录
+│   ├── register_screen.dart      # 注册
+│   └── settings_screen.dart      # 设置
+├── services/                 # 服务
+│   ├── auth_service.dart         # 认证服务
+│   ├── device_service.dart       # 设备服务
+│   └── websocket_service.dart    # WebSocket服务
+└── widgets/                  # 组件
+    ├── alert_widget.dart         # 警报组件
+    ├── chart_widget.dart         # 图表组件
+    └── device_list_item.dart     # 设备列表项组件
 ```
 
-## 主要功能模块
+## 核心功能模块
 
-### 1. 登录和注册
+### 1. 用户认证模块
+- 用户登录
+- 用户注册
+- 密码修改
+- 会话管理
 
-- 登录界面: `lib/screens/login_screen.dart`
-- 注册界面: `lib/screens/register_screen.dart`
+### 2. 设备管理模块
+- 设备列表显示
+- 添加新设备
+- 设备详情查看
+- 设备信息编辑
+- 设备状态监控
 
-这两个界面允许用户进行账号登录和新用户注册。
+### 3. 数据分析模块
+- 压力数据图表展示
+- 历史数据查询
+- 数据分页显示
+- 时间范围筛选
 
-### 2. 设备管理
+### 4. 报警监控模块
+- 实时压力监控
+- 超阈值报警
+- 报警信息推送
+- 报警历史记录
 
-- 添加设备: `lib/screens/add_device_screen.dart`
-- 设备详情: `lib/screens/device_detail_screen.dart`
-- 编辑设备: `lib/screens/device_edit_screen.dart`
-- 设备列表项: `lib/widgets/device_list_item.dart`
+### 5. 系统设置模块
+- 密码修改
+- 压力单位设置
+- 系统配置
 
-这些文件处理设备的添加、查看详情和编辑功能。
+## 数据模型
 
-### 3. 数据分析
+### Device 设备模型
+```dart
+{
+  id: int,                    // 设备ID
+  name: String,               // 设备名称
+  macAddress: String,         // MAC地址
+  communicationChannel: String,// 通信通道
+  threshold: double?,         // 压力阈值
+  isOn: bool,                // 设备状态
+  currentPressure: double?,   // 当前压力
+}
+```
 
-- 数据分析界面: `lib/screens/data_analysis_screen.dart`
+### User 用户模型
+```dart
+{
+  id: int,           // 用户ID
+  username: String,  // 用户名
+}
+```
 
-该界面提供了数据的表格和图表展示，支持分页和搜索功能。
+## 网络通信
 
-### 4. 警报信息
+### REST API
+- 用户认证
+- 设备管理
+- 数据查询
 
-- 警报信息界面: `lib/screens/alert_info_screen.dart`
+### WebSocket
+- 实时压力数据推送
+- 报警信息推送
 
-显示系统的警报信息。
+## UI 设计特点
 
-### 5. 设置
+- 采用 Material Design 设计规范
+- 紫色主题配色方案
+- 响应式布局设计
+- 流畅的动画过渡效果
+- 直观的数据可视化展示
 
-- 设置界面: `lib/screens/settings_screen.dart`
+## 开发环境配置
 
-允许用户修改密码和进行其他系统设置。
+1. 安装 Flutter SDK
+2. 配置 Android Studio 或 VS Code
+3. 安装必要的依赖包:
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.0
+  web_socket_channel: ^2.1.0
+  fl_chart: ^0.36.0
+  shared_preferences: ^2.0.0
+```
 
-### 6. 服务
+## 如何运行
 
-- 认证服务: `lib/services/auth_service.dart`
-- 设备服务: `lib/services/device_service.dart`
+1. 克隆项目代码
+```bash
+git clone [项目地址]
+```
 
-这些服务文件处理与后端API的通信，包括用户认证和设备数据的CRUD操作。
+2. 安装依赖
+```bash
+flutter pub get
+```
 
-## 关键代码解析
+3. 运行项目
+```bash
+flutter run
+```
 
-### 1. 主程序入口
+## 注意事项
 
-
-这是应用的主入口，设置了应用的主题和初始路由。
-
-### 2. 登录界面
-
-
-登录界面的主要构建逻辑，包括用户名和密码输入框，以及登录按钮。
-
-### 3. 设备详情界面
-
-
-设备详情界面的构建逻辑，显示设备的各项信息。
-
-### 4. 数据分析界面
-
-
-数据分析界面的构建逻辑，包括表格和图表视图的切换，以及分页控制。
-
-## 如何开始
-
-1. 确保您的开发环境已经安装了Flutter SDK。
-2. 克隆此项目到本地。
-3. 在项目根目录运行 `flutter pub get` 安装依赖。
-4. 使用 `flutter run` 命令运行项目。
-
-## 学习建议
-
-1. 从 `main.dart` 开始，理解应用的整体结构。
-2. 逐个查看 `screens` 目录下的文件，了解各个界面的构建逻辑。
-3. 研究 `services` 目录下的文件，了解如何与后端API进行通信。
-4. 查看 `widgets` 目录，学习如何创建可重用的UI组件。
-5. 尝试修改一些UI元素或添加新功能，以加深对项目的理解。
+1. 确保设备已连接到网络
+2. 后端服务器需要正常运行
+3. WebSocket 连接需要保持稳定
+4. 注意数据安全性和隐私保护
